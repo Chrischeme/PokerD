@@ -5,7 +5,7 @@
  */
 package pokerd;
 
-import java.util.LinkedList;
+import java.util.Random;
 import java.util.Stack;
 
 /**
@@ -14,9 +14,11 @@ import java.util.Stack;
  */
 public class Deck {
     Stack<Card> deck = new Stack();
-    public void Deck() {
+    int numCards;
+    public Deck() {
+        numCards = 52;
         char num = '2';
-        for (int i = 0; i < 9; i++) {
+        for (int i = 0; i < 8; i++) {
             Card c = new Card(num, 'h');
             deck.add(c);
             num++;
@@ -29,8 +31,10 @@ public class Deck {
         deck.add(c);
         c = new Card('k', 'h');
         deck.add(c);
+        c = new Card('t', 'h');
+        deck.add(c);
         num = '2';
-        for (int i = 0; i < 9; i++) {
+        for (int i = 0; i < 8; i++) {
             c = new Card(num, 'd');
             deck.add(c);
             num++;
@@ -44,8 +48,12 @@ public class Deck {
         deck.add(c);
         c = new Card('k', 'd');
         deck.add(c);
-        for (int i = 0; i < 9; i++) {
+        c = new Card('t', 'd');
+        deck.add(c);
+        for (int i = 0; i < 8; i++) {
             c = new Card(num, 'c');
+            deck.add(c);
+            num++;
         }
         c = new Card('a', 'c');
         deck.add(c);
@@ -55,9 +63,13 @@ public class Deck {
         deck.add(c);
         c = new Card('k', 'c');
         deck.add(c);
+        c = new Card('t', 'c');
+        deck.add(c);
         num = '2';
-        for (int i = 0; i < 9; i++) {
+        for (int i = 0; i < 8; i++) {
             c = new Card(num, 's');
+            deck.add(c);
+            num++;
         }
         c = new Card('a', 's');
         deck.add(c);
@@ -67,15 +79,44 @@ public class Deck {
         deck.add(c);
         c = new Card('k', 's');
         deck.add(c);
+        c = new Card('t', 's');
+        deck.add(c);
     }
     
     public void shuffle() {
-        
+        Card[] shuffleArr = new Card[numCards];
+        for (int i = 0; i < numCards; i++) {
+            shuffleArr[i] = deck.pop();
+        }
+        for (int i = numCards - 1; i > 0; i--) {
+            Random r = new Random();
+            int rand = r.nextInt(i);
+            deck.push(shuffleArr[rand]);
+            shuffleArr[rand] = shuffleArr[i];
+        }
+        deck.push(shuffleArr[0]);
     }
     
     public void printDeck() {
         for (Card c : deck) {
-            System.out.println(c.suit + c.num);
+            System.out.println(c.suit + "" + c.num);
         }
+    }
+    
+    public void dealPokerHand() {
+        if (numCards >= 5) {
+            for (int i = 0; i < 5; i++) {
+                Card c = deal();
+                System.out.println(c.num + "" + c.suit);
+            }
+        }
+        else {
+            System.out.println("Not enough cards in deck");
+        }
+    }
+    
+    public Card deal() {
+        numCards--;
+        return deck.pop();
     }
 }

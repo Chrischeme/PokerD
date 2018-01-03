@@ -11,6 +11,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /**
@@ -18,20 +19,39 @@ import javafx.stage.Stage;
  * @author Chris
  */
 public class PokerD extends Application {
-    
+    Deck deck = new Deck();
     @Override
     public void start(Stage primaryStage) {
-        Button btn = new Button();
-        btn.setText("Say 'Hello World'");
-        btn.setOnAction(new EventHandler<ActionEvent>() {
-            
-            @Override
-            public void handle(ActionEvent event) {
-            }
+        Button printDeck = new Button();
+        Button refreshDeck = new Button();
+        Button shuffleDeck = new Button();
+        Button dealHand = new Button();
+        
+        printDeck.setText("Print Deck");
+        refreshDeck.setText("Refresh Deck");
+        shuffleDeck.setText("Shuffle Deck");
+        dealHand.setText("Deal Hand");
+        
+        printDeck.setOnAction(e-> {
+            deck.printDeck();
+        });
+        refreshDeck.setOnAction(e-> {
+            deck = new Deck();
+        });
+        shuffleDeck.setOnAction(e-> {
+            deck.shuffle();
+        });
+        dealHand.setOnAction(e-> {
+            deck.dealPokerHand();
         });
         
         StackPane root = new StackPane();
-        root.getChildren().add(btn);
+        VBox vPane = new VBox();
+        root.getChildren().add(vPane);
+        vPane.getChildren().add(printDeck);
+        vPane.getChildren().add(refreshDeck);
+        vPane.getChildren().add(shuffleDeck);
+        vPane.getChildren().add(dealHand);
         
         Scene scene = new Scene(root, 300, 250);
         
